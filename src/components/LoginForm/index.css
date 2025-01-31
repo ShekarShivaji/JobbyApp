@@ -1,0 +1,83 @@
+.loginFormContainer {
+  background-color: #000000;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.loginFormCard-Container {
+  background-color: #202020;
+  width: 500px;
+  height: 500px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+}
+
+@media screen and (max-width: 576px) {
+  .loginFormCard-Container {
+    width: 400px;
+    height: 600px;
+  }
+}
+
+.websiteLogo {
+  width: 150px;
+  margin-bottom: 50px;
+}
+
+@media screen and (max-width: 576px) {
+  .websiteLogo {
+    width: 90px;
+  }
+}
+
+.inputElement {
+  background-color: transparent;
+  border: 1px solid #64748b;
+  height: 35px;
+  padding-left: 20px;
+  color: #ffffff;
+}
+
+.inputsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-top: 20px;
+}
+
+.label {
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-weight: 500;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.loginButton {
+  color: #ffffff;
+  background-color: #6366f1;
+  border-radius: 5px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding-left: 12px;
+  padding-right: 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 15px;
+  margin-top: 40px;
+  width: 80%;
+}
+
+.error-mag {
+  color: #ff0b37;
+  margin: 20px;
+}

@@ -1,0 +1,74 @@
+.similarCardContiner {
+  width: 38%;
+  min-height: 500px;
+  background-color: #202020;
+  margin-top: 28px;
+  border-radius: 20px;
+  padding: 30px;
+  margin-right: 20px;
+}
+
+.nameAndImgContainer {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 30px;
+}
+
+.job-details-company-logo {
+  width: 60px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 20px;
+}
+.nameAndRatingContiner {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+}
+
+.ratingContiner {
+  display: flex;
+  width: 30px;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.fastar {
+  color: #fbbf24;
+}
+
+.rating {
+  font-family: 'Roboto';
+  color: #ffffff;
+}
+
+.jobDetailsContiner {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.locationAndjobDetailsContiner {
+  display: flex;
+  align-items: center;
+}
+
+.icon1 {
+  color: #ffffff;
+}
+
+.icon2 {
+  color: #ffffff;
+  margin-left: 20px;
+  margin-right: 5px;
+}
+
+.text {
+  color: #cbd5e1;
+  font-family: 'Roboto';
+  font-size: 15px;
+  font-weight: 600;
+}
