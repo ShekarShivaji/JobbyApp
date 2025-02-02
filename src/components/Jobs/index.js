@@ -4,9 +4,8 @@ import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
 import {BsSearch} from 'react-icons/bs'
 import Header from '../Header'
-import FiltersOnTypesOnEmployment from '../FiltersOnTypesOnEmployment'
-import FiltersOnSalaryRange from '../FiltersOnSalaryRange'
 import JobsItems from '../JobsItems'
+import FiltersGroup from '../FiltersGroup'
 
 const apiUrlContants = {
   initial: 'INITIAL',
@@ -19,19 +18,19 @@ const apiUrlContants = {
 const employmentTypesList = [
   {
     label: 'Full Time',
-    employmentTypeId: 'FULLTIME',
+    id: 'FULLTIME',
   },
   {
     label: 'Part Time',
-    employmentTypeId: 'PARTTIME',
+    id: 'PARTTIME',
   },
   {
     label: 'Freelance',
-    employmentTypeId: 'FREELANCE',
+    id: 'FREELANCE',
   },
   {
     label: 'Internship',
-    employmentTypeId: 'INTERNSHIP',
+    id: 'INTERNSHIP',
   },
 ]
 
@@ -54,7 +53,28 @@ const salaryRangesList = [
   },
 ]
 
-const newObject = []
+const locationList = [
+  {
+    id: 'HYDERABAD',
+    label: 'Hyderabad',
+  },
+  {
+    id: 'BANGALORE',
+    label: 'Bangalore',
+  },
+  {
+    id: 'CHENNAI',
+    label: 'Chennai',
+  },
+  {
+    id: 'DELHI',
+    label: 'Delhi',
+  },
+  {
+    id: 'MUMBAI',
+    label: 'Mumbai',
+  },
+]
 let searchInput = ''
 
 class Jobs extends Component {
@@ -63,7 +83,8 @@ class Jobs extends Component {
     apiStateforProfileView: apiUrlContants.initial,
     apiStateforJobsView: apiUrlContants.initial,
     jobData: [],
-    selectedList: [],
+    employeeTypeList: [],
+    selectedlocationList: [],
     salaryRange: '',
     search: '',
   }
@@ -87,21 +108,54 @@ class Jobs extends Component {
   }
 
   getSelectedEmploymentTypesList = emp => {
-    const {selectedList} = this.state
-    console.log(selectedList.includes(emp))
-    if (selectedList.includes(emp) === false) {
-      newObject.push(emp)
-      this.setState({selectedList: newObject}, this.getJobsData)
+    const {employeeTypeList} = this.state
+    const inputNotInList = employeeTypeList.filter(each => each === emp)
+
+    if (inputNotInList.length === 0) {
+      this.setState(
+        prevState => ({
+          employeeTypeList: [...prevState.employeeTypeList, emp],
+        }),
+        this.getJobsData,
+      )
     } else {
-      const filtered = selectedList.filter(each => each !== emp)
-      this.setState({selectedList: filtered}, this.getJobsData)
+      const filteredData = employeeTypeList.filter(eachItem => eachItem !== emp)
+      this.setState({employeeTypeList: filteredData}, this.getJobsData)
+    }
+  }
+
+  onChangeLocation = location => {
+    const {selectedlocationList} = this.state
+    const inputNotInList = selectedlocationList.filter(
+      each => each === location,
+    )
+
+    if (inputNotInList.length === 0) {
+      this.setState(
+        prevState => ({
+          selectedlocationList: [...prevState.selectedlocationList, location],
+        }),
+        this.getJobsData,
+      )
+    } else {
+      const filteredData = selectedlocationList.filter(
+        eachItem => eachItem !== location,
+      )
+      console.log(filteredData)
+      this.setState({selectedlocationList: filteredData}, this.getJobsData)
     }
   }
 
   getJobsData = async () => {
-    const {selectedList, salaryRange, search} = this.state
-    const employmentType = selectedList.join()
-    console.log(employmentType)
+    const {
+      employeeTypeList,
+      selectedlocationList,
+      salaryRange,
+      search,
+    } = this.state
+    const employmentType = employeeTypeList.join()
+    const locations = selectedlocationList.join()
+    console.log(locations)
     const jwtToken = Cookies.get('jwt_token')
     const options = {
       headers: {
@@ -111,7 +165,7 @@ class Jobs extends Component {
     }
     this.setState({apiStateforJobsView: apiUrlContants.inProgress})
     const response = await fetch(
-      `https://apis.ccbp.in/jobs?employment_type=${employmentType}&minimum_package=${salaryRange}&search=${search}`,
+      `https://apis.ccbp.in/jobs?employment_type=${employmentType}&minimum_package=${salaryRange}&search=${search}&location=${locations}`,
       options,
     )
     const data = await response.json()
@@ -209,6 +263,8 @@ class Jobs extends Component {
         src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
         className="noJobsImg"
       />
+      <h1>No Jobs Found</h1>
+      <p>We could not find any jobs. Try other filters</p>
     </div>
   )
 
@@ -277,30 +333,16 @@ class Jobs extends Component {
               </button>
             </div>
             {this.renderTheoutPut()}
-            <hr className="sparator" />
-            <h1 className="typesOfEmplyment">Types of Employment</h1>
-            <ul className="employmentTypesList">
-              {employmentTypesList.map(eachItem => (
-                <FiltersOnTypesOnEmployment
-                  eachItem={eachItem}
-                  key={eachItem.employmentTypeId}
-                  getSelectedEmploymentTypesList={
-                    this.getSelectedEmploymentTypesList
-                  }
-                />
-              ))}
-            </ul>
-            <hr className="sparator" />
-            <h1 className="typesOfEmplyment">Types of Employment</h1>
-            <ul className="employmentTypesList">
-              {salaryRangesList.map(eachItem => (
-                <FiltersOnSalaryRange
-                  eachItem={eachItem}
-                  key={eachItem.salaryRangeId}
-                  onChangeSalaryOption={this.onChangeSalaryOption}
-                />
-              ))}
-            </ul>
+            <FiltersGroup
+              locationList={locationList}
+              onChangeLocation={this.onChangeLocation}
+              employmentTypesList={employmentTypesList}
+              salaryRangesList={salaryRangesList}
+              getSelectedEmploymentTypesList={
+                this.getSelectedEmploymentTypesList
+              }
+              onChangeSalaryOption={this.onChangeSalaryOption}
+            />
             <hr className="sparator" />
           </div>
           <div className="jobsDetailsContainers">
