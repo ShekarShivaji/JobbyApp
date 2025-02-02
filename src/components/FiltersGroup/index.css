@@ -1,0 +1,19 @@
+.jobTypes {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+}
+
+.label {
+  color: #ffffff;
+  margin-left: 10px;
+  font-size: 17px;
+}
+
+.radio {
+  height: 20px;
+}
+
+.checkbox {
+  height: 20px;
+}
